@@ -55,13 +55,19 @@
     </label>
     <div class="col-sm-9">
       <% nearby_count = @competition.nearby_competitions(Competition::NEARBY_DAYS_INFO, Competition::NEARBY_DISTANCE_KM_DANGER).count %>
-      <div class="<%= nearby_count < Competition::NEARBY_INFO_COUNT ? "alert alert-success" : "alert alert-danger" %>" role="alert"><%= nearby_count %> <%= "competition".pluralize(nearby_count) %> within <%= Competition::NEARBY_DISTANCE_KM_DANGER %>km and <%= Competition::NEARBY_DAYS_INFO %> days.
-      </div>
+      <a href="#" data-toggle="popover" title="Within <%= Competition::NEARBY_DAYS_INFO %> days" data-content="Hello world!\nThis is a test.">
+        <div class="<%= nearby_count < Competition::NEARBY_INFO_COUNT ? "alert alert-success" : "alert alert-danger" %>" role="alert"><%= nearby_count %> <%= "competition".pluralize(nearby_count) %> within <%= Competition::NEARBY_DISTANCE_KM_DANGER %>km and <%= Competition::NEARBY_DAYS_INFO %> days.
+        </div>
+      </a>
     </div>
   </div>
 <% end %>
 
 <script>
+  (function() {
+    $('[data-toggle="popover"]').popover();   
+  });
+
   (function() {
     $('[data-toggle="tooltip"]').tooltip();
     wca.setNearbyCompetitions(<%= nearby_competitions.map do |c|

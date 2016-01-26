@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   get 'polls/:id/vote' => 'votes#vote', as: 'polls_vote'
   get 'polls/:id/results' => 'polls#results', as: 'polls_results'
 
+  resources :persons, only: [:show]
+
   resources :votes, only: [:create, :update]
 
   # TODO - these are vulnerable to CSRF. We should be able to change these to

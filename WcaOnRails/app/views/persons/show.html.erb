@@ -1,0 +1,12 @@
+<% provide(:title, @person.name) %>
+
+<div class="container">
+  <h1><%= yield(:title) %></h1>
+
+  <%= @person.wca_id %><br />
+  <%= @person.name %><br />
+
+  <% @person.results.each do |result| %>
+    <%= result.competitionId %>, <%= result.eventId %>, <%= result.value1 %><br />
+  <% end %>
+</div>

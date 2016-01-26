@@ -1,12 +1,98 @@
 <% provide(:title, @person.name) %>
 
 <div class="container">
-  <h1><%= yield(:title) %></h1>
-
-  <%= @person.wca_id %><br />
-  <%= @person.name %><br />
-
-  <% @person.results.each do |result| %>
-    <%= result.competitionId %>, <%= result.eventId %>, <%= result.value1 %><br />
+  <p class="text-center"><%= yield(:title) %></p>
+  <% if @person.user.avatar? %>
+    <div class="col-sm-6">
+      <%= image_tag @person.user.avatar.url, class: "person" %>
+    </div>
   <% end %>
+  <br />
+  <h4>Details</h4>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Country</th>
+        <th>WCA id</th>
+        <th>Gender</th>
+        <th>Competitions</th>
+        <th class="big-column"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @person.countryId %></td>
+        <td><%= @person.wca_id %></td>
+        <td><%= @person.gender %></td>
+        <td><%= @person.competitions.count %></td>
+        <td class="big-column"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Current personal records</h4>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>NR</th>
+        <th>CR</th>
+        <th>WR</th>
+        <th>Single</th>
+        <th>Average</th>
+        <th>WR</th>
+        <th>CR</th>
+        <th>NR</th>
+        <th class="big-column"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @events.each do |event| %>
+        <tr>
+          <td><%= event.name %></td>
+          <td><%=  %></td>
+          <td><%=  %></td>
+          <td><%= @person.world_rank(event, :single) %></td>
+          <td><%= @person.best_solve(event, :single).clock_format %></td>
+          <td><%=  %></td>
+          <td><%= @person.world_rank(event, :average) %></td>
+          <td><%=  %></td>
+          <td><%=  %></td>
+          <td class="big-column"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h4>History</h4>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Competition</th>
+        <th>Event</th>
+        <th>Round</th>
+        <th>Result</th>
+        <th>details</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="big-column"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @person.results.each do |result| %>
+        <tr>
+          <td><%= result.competitionId %></td>
+          <td><%= result.eventId %></td>
+          <td><%= result.roundId %></td>
+          <td><%= result.value1 %></td>
+          <td><%= result.value2 %></td>
+          <td><%= result.value3 %></td>
+          <td><%= result.value4 %></td>
+          <td><%= result.value5 %></td>
+          <td class="big-column"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

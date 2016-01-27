@@ -82,6 +82,8 @@
             <th>Competition</th>
             <th>Round</th>
             <th>Place</th>
+            <th>Best</th>
+            <th>Average</th>
             <th>Result</th>
             <th>details</th>
             <th></th>
@@ -102,11 +104,13 @@
               </td>
               <td>
                 <% if !same_competition %>
-                  <%= Competition.find(result.competitionId).name %>
+                  <%= link_to Competition.find(result.competitionId).name, competition_path(result.competitionId) %>
                 <% end %>
               </td>
               <td><%= Round.find(result.roundId).name %></td>
               <td><%= result.pos %></td>
+              <td><%= result.best_solve.clock_format %></td>
+              <td><%= result.average_solve.clock_format %></td>
               <% result.solves.each_with_index do |solve, i| %>
                 <%= content_tag :td, solve.clock_format %>
               <% end %>

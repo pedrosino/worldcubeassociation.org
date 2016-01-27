@@ -1,0 +1,14 @@
+.person-results {
+  font-size: 12px;
+
+  width: auto;
+
+  thead,
+  tbody {
+    td,
+    th {
+      white-space: nowrap;
+      width: auto;
+    }
+  }
+}

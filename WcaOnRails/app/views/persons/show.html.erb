@@ -8,91 +8,107 @@
     </div>
   <% end %>
   <br />
-  <h4>Details</h4>
-  <table class="table table-condensed">
+  <strong>Details</strong>
+  <br />
+  <table class="table table-condensed table-striped person-results">
     <thead>
       <tr>
         <th>Country</th>
         <th>WCA id</th>
         <th>Gender</th>
         <th>Competitions</th>
-        <th class="big-column"></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><%= @person.countryId %></td>
         <td><%= @person.wca_id %></td>
-        <td><%= @person.gender %></td>
+        <td>
+          <% if @person.gender == 'm' %>
+            Male
+          <% elsif @person.gender == 'f' %>
+            Female
+          <% end %>
+        </td>
         <td><%= @person.competitions.count %></td>
-        <td class="big-column"></td>
       </tr>
     </tbody>
   </table>
-
-  <h4>Current personal records</h4>
-  <table class="table table-condensed">
+  <br />
+  <strong>Current personal records</strong>
+  <br />
+  <table class="table table-condensed table-striped person-results">
     <thead>
       <tr>
         <th>Event</th>
-        <th>NR</th>
-        <th>CR</th>
+        <th class="text-right">NR</th>
+        <th class="text-right">CR</th>
+        <th class="text-right">WR</th>
+        <th class="text-right">Single</th>
+        <th class="text-right">Average</th>
         <th>WR</th>
-        <th>Single</th>
-        <th>Average</th>
-        <th>WR</th>
         <th>CR</th>
         <th>NR</th>
-        <th class="big-column"></th>
       </tr>
     </thead>
     <tbody>
       <% @events.each do |event| %>
-        <tr>
-          <td><%= event.name %></td>
-          <td><%=  %></td>
-          <td><%=  %></td>
-          <td><%= @person.world_rank(event, :single) %></td>
-          <td><%= @person.best_solve(event, :single).clock_format %></td>
-          <td><%=  %></td>
-          <td><%= @person.world_rank(event, :average) %></td>
-          <td><%=  %></td>
-          <td><%=  %></td>
-          <td class="big-column"></td>
-        </tr>
+        <% if @person.participated?(event) %>
+          <tr>
+            <td><%= event.name %></td>
+            <td class="text-right"></td>
+            <td class="text-right"></td>
+            <td class="text-right"><strong><%= @person.world_rank(event, :single) %></strong></td>
+            <td class="text-right"><%= @person.best_solve(event, :single).clock_format %></td>
+            <td class="text-right"><%=  %></td>
+            <td><strong><%= @person.world_rank(event, :average) %></strong></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
-
-  <h4>History</h4>
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>Competition</th>
-        <th>Event</th>
-        <th>Round</th>
-        <th>Result</th>
-        <th>details</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th class="big-column"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @person.results.each do |result| %>
-        <tr>
-          <td><%= result.competitionId %></td>
-          <td><%= result.eventId %></td>
-          <td><%= result.roundId %></td>
-          <td><%= result.value1 %></td>
-          <td><%= result.value2 %></td>
-          <td><%= result.value3 %></td>
-          <td><%= result.value4 %></td>
-          <td><%= result.value5 %></td>
-          <td class="big-column"></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <br />
+  <strong>History</strong>
+  <br />
+  <% @events.each do |event| %>
+    <% if @person.participated?(event) %>
+      <%= event.name %>
+      <table class="table table-condensed table-striped person-results">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Competition</th>
+            <th>Round</th>
+            <th>Place</th>
+            <th>Result</th>
+            <th>details</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @person.results.select { |r| r.eventId == event.id }.each do |result| %>
+            <tr>
+              <td>
+                <%= link_to "/result/#{result.id}" do %>
+                  <span class='glyphicon glyphicon-link'></span>
+                <% end %>
+              </td>
+              <td><%= Competition.find(result.competitionId).name %></td>
+              <td><%= Round.find(result.roundId).name %></td>
+              <td><%= result.pos %></td>
+              <td><%= result.value1 %></td>
+              <td><%= result.value2 %></td>
+              <td><%= result.value3 %></td>
+              <td><%= result.value4 %></td>
+              <td><%= result.value5 %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  <% end %>
 </div>

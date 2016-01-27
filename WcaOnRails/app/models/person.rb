@@ -79,4 +79,8 @@ class Person < ActiveRecord::Base
 
     json
   end
+
+  def participated?(event)
+    self.results.select { |r| r.eventId == event.id }.count > 0
+  end
 end

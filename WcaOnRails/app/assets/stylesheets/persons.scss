@@ -12,3 +12,23 @@
     }
   }
 }
+
+.person-avatar {
+  max-width: 600px;
+  max-height: 400px;
+  display: block;
+}
+
+.person-title {
+  font-weight: bold;
+  color: #02A;
+}
+
+.main {
+  text-align: center;
+  font-size: 18px;
+}
+
+.same-comp {
+  opacity: 0.6;
+}

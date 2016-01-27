@@ -1,15 +1,15 @@
 <% provide(:title, @person.name) %>
 
 <div class="container">
-  <p class="text-center"><%= yield(:title) %></p>
+  <p class="person-title main"><%= yield(:title) %></p>
   <% if @person.user.avatar? %>
     <div class="col-sm-6">
-      <%= image_tag @person.user.avatar.url, class: "person" %>
+      <%= image_tag @person.user.avatar.url, class: "person-avatar" %>
     </div>
   <% end %>
   <br />
-  <strong>Details</strong>
-  <br />
+  <p class="person-title">Details</p>
+
   <table class="table table-condensed table-striped person-results">
     <thead>
       <tr>
@@ -35,8 +35,8 @@
     </tbody>
   </table>
   <br />
-  <strong>Current personal records</strong>
-  <br />
+  <p class="person-title">Current personal records</p>
+
   <table class="table table-condensed table-striped person-results">
     <thead>
       <tr>
@@ -70,8 +70,8 @@
     </tbody>
   </table>
   <br />
-  <strong>History</strong>
-  <br />
+  <p class="person-title">History</p>
+
   <% @events.each do |event| %>
     <% if @person.participated?(event) %>
       <%= event.name %>
@@ -90,21 +90,26 @@
           </tr>
         </thead>
         <tbody>
-          <% @person.results.select { |r| r.eventId == event.id }.each do |result| %>
-            <tr>
+          <% this_results = @person.results.select { |r| r.eventId == event.id } %>
+          <% this_results.each_with_index do |result, i| %>
+            <% previous = this_results[i-1] unless i == 0 %>
+            <% same_competition = previous && (previous.competitionId == result.competitionId) %>
+            <tr class="<%= same_competition ? "same-comp" : "" %>">
               <td>
                 <%= link_to "/result/#{result.id}" do %>
                   <span class='glyphicon glyphicon-link'></span>
                 <% end %>
               </td>
-              <td><%= Competition.find(result.competitionId).name %></td>
+              <td>
+                <% if !same_competition %>
+                  <%= Competition.find(result.competitionId).name %>
+                <% end %>
+              </td>
               <td><%= Round.find(result.roundId).name %></td>
               <td><%= result.pos %></td>
-              <td><%= result.value1 %></td>
-              <td><%= result.value2 %></td>
-              <td><%= result.value3 %></td>
-              <td><%= result.value4 %></td>
-              <td><%= result.value5 %></td>
+              <% result.solves.each_with_index do |solve, i| %>
+                <%= content_tag :td, solve.clock_format %>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

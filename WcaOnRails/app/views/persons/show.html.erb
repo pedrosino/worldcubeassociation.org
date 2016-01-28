@@ -96,7 +96,7 @@
           <% this_results.each_with_index do |result, i| %>
             <% previous = this_results[i-1] unless i == 0 %>
             <% same_competition = previous && (previous.competitionId == result.competitionId) %>
-            <tr class="<%= same_competition ? "same-comp" : "" %>">
+            <tr class="<%= same_competition ? "" : "different-comp" %>">
               <td>
                 <%= link_to "/result/#{result.id}" do %>
                   <span class='glyphicon glyphicon-link'></span>

@@ -56,14 +56,14 @@
         <% if @person.participated?(event) %>
           <tr>
             <td><%= event.name %></td>
-            <td class="text-right"></td>
-            <td class="text-right"></td>
+            <td class="text-right"><%= @person.national_rank(event, :single) %></td>
+            <td class="text-right"><%= @person.continental_rank(event, :single) %></td>
             <td class="text-right"><strong><%= @person.world_rank(event, :single) %></strong></td>
             <td class="text-right"><%= @person.best_solve(event, :single).clock_format %></td>
-            <td class="text-right"><%=  %></td>
+            <td class="text-right"><%= @person.best_solve(event, :average).clock_format %></td>
             <td><strong><%= @person.world_rank(event, :average) %></strong></td>
-            <td></td>
-            <td></td>
+            <td><%= @person.continental_rank(event, :average) %></td>
+            <td><%= @person.national_rank(event, :average) %></td>
           </tr>
         <% end %>
       <% end %>
@@ -92,7 +92,7 @@
           </tr>
         </thead>
         <tbody>
-          <% this_results = @person.results.select { |r| r.eventId == event.id } %>
+          <% this_results = @person.results.select { |r| r.eventId == event.id }.sort_by { |r| r.competition.start_date }.reverse! %>
           <% this_results.each_with_index do |result, i| %>
             <% previous = this_results[i-1] unless i == 0 %>
             <% same_competition = previous && (previous.competitionId == result.competitionId) %>

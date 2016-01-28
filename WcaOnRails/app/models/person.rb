@@ -46,6 +46,16 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def national_rank(event, type)
+    rank = rank_for_event_type(event, type)
+    rank ? rank.countryRank : nil
+  end
+
+  def continental_rank(event, type)
+    rank = rank_for_event_type(event, type)
+    rank ? rank.continentRank : nil
+  end
+
   def world_rank(event, type)
     rank = rank_for_event_type(event, type)
     rank ? rank.worldRank : nil

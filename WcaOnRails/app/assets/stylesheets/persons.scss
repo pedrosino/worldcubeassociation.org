@@ -3,18 +3,31 @@
 
   width: auto;
 
+  padding: 3px;
+
   thead,
   tbody {
-    td,
-    th {
-      white-space: nowrap;
-      width: auto;
+    tr {
+      td,
+      th {
+        white-space: nowrap;
+        width: auto;
+        padding: 3px 5px;
+      }
     }
+  }
+
+  & .wide-column {
+    width: 80px;
+  }
+
+  & .first-result {
+    padding-left: 25px;
   }
 }
 
 .person-avatar {
-  max-width: 600px;
+  max-width: 300px;
   max-height: 400px;
   display: block;
 }

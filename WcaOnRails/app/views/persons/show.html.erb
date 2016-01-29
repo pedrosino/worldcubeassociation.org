@@ -4,7 +4,9 @@
   <p class="person-title main"><%= yield(:title) %></p>
   <% if @person.user.avatar? %>
     <div class="col-sm-6">
-      <%= image_tag @person.user.avatar.url, class: "person-avatar" %>
+      <center>
+        <%= image_tag @person.user.avatar.url, class: "person-avatar" %>
+      </center>
     </div>
   <% end %>
   <br />
@@ -45,7 +47,7 @@
         <th class="text-right">CR</th>
         <th class="text-right">WR</th>
         <th class="text-right">Single</th>
-        <th class="text-right">Average</th>
+        <th>Average</th>
         <th>WR</th>
         <th>CR</th>
         <th>NR</th>
@@ -60,7 +62,7 @@
             <td class="text-right"><%= @person.continental_rank(event, :single) %></td>
             <td class="text-right"><strong><%= @person.world_rank(event, :single) %></strong></td>
             <td class="text-right"><%= @person.best_solve(event, :single).clock_format %></td>
-            <td class="text-right"><%= @person.best_solve(event, :average).clock_format %></td>
+            <td><%= @person.best_solve(event, :average).clock_format %></td>
             <td><strong><%= @person.world_rank(event, :average) %></strong></td>
             <td><%= @person.continental_rank(event, :average) %></td>
             <td><%= @person.national_rank(event, :average) %></td>
@@ -81,11 +83,10 @@
             <th></th>
             <th>Competition</th>
             <th>Round</th>
-            <th>Place</th>
-            <th>Best</th>
-            <th>Average</th>
-            <th>Result</th>
-            <th>details</th>
+            <th class="text-right wide-column">Place</th>
+            <th class="text-right wide-column">Best</th>
+            <th class="text-right wide-column">Average</th>
+            <th colspan="2" class="first-result">Result details</th>
             <th></th>
             <th></th>
             <th></th>
@@ -108,11 +109,11 @@
                 <% end %>
               </td>
               <td><%= Round.find(result.roundId).name %></td>
-              <td><%= result.pos %></td>
-              <td><%= result.best_solve.clock_format %></td>
-              <td><%= result.average_solve.clock_format %></td>
+              <td class="text-right"><%= result.pos %></td>
+              <td class="text-right"><%= result.best_solve.clock_format %></td>
+              <td class="text-right"><%= result.average_solve.clock_format %></td>
               <% result.solves.each_with_index do |solve, i| %>
-                <%= content_tag :td, solve.clock_format %>
+                <td class="<%= i == 0 ? "first-result" : "" %>"><%= solve.clock_format %></td>
               <% end %>
             </tr>
           <% end %>

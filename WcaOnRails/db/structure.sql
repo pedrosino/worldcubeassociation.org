@@ -673,7 +673,6 @@ CREATE TABLE `polls` (
   `question` text COLLATE utf8_unicode_ci NOT NULL,
   `multiple` tinyint(1) NOT NULL,
   `deadline` datetime NOT NULL,
-  `confirmed` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `comment` text COLLATE utf8_unicode_ci,

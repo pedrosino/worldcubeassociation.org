@@ -44,6 +44,7 @@ class PollsController < ApplicationController
     @poll = Poll.find(params[:id])
     if @poll.update_attributes(poll_params)
       if params[:commit] == "Confirm"
+        @poll.update_column(:confirmed_at, Time.now)
         flash[:success] = "Poll confirmed and open to voting"
       else
         flash[:success] = "Updated poll"

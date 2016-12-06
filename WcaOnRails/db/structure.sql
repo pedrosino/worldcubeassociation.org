@@ -677,6 +677,7 @@ CREATE TABLE `polls` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `comment` text COLLATE utf8_unicode_ci,
+  `confirmed_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1148,8 +1149,10 @@ INSERT INTO schema_migrations (version) VALUES ('20161026201019');
 
 INSERT INTO schema_migrations (version) VALUES ('20161031215932');
 
+INSERT INTO schema_migrations (version) VALUES ('20161117085757');
+
 INSERT INTO schema_migrations (version) VALUES ('20161118141833');
 
 INSERT INTO schema_migrations (version) VALUES ('20161122162029');
 
-INSERT INTO schema_migrations (version) VALUES ('20161117085757');
+INSERT INTO schema_migrations (version) VALUES ('20161206204738');

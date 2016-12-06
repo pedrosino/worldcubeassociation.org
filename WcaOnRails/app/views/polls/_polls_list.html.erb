@@ -21,6 +21,9 @@
       <% if current_user.can_create_poll? %>
         <td><%= link_to "Edit", edit_poll_path(poll), class: "btn btn-xs btn-success" %></td>
       <% end %>
+      <td>
+        <%= poll.over? ? "Voting closed on" : "Open until" %> <%= poll.deadline %>
+      </td>
     </tr>
   <% end %>
 </table>

@@ -51,7 +51,7 @@ describe PollsController do
 
         post :update, id: poll.id, poll: { question: poll.question }, commit: "Confirm"
         poll.reload
-        expect(poll.confirmed?).to eq true
+        expect(poll.confirmed_at).to_not eq nil
       end
 
       it "removes an option and try to confirm" do
@@ -67,7 +67,7 @@ describe PollsController do
 
         post :update, id: poll.id, poll: { question: poll.question }, commit: "Confirm"
         poll.reload
-        expect(poll.confirmed?).to eq false
+        expect(poll.confirmed_at).to eq nil
       end
 
       it "can't edit a confirmed poll, except for deadline" do

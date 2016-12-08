@@ -8,16 +8,16 @@ class Poll < ActiveRecord::Base
   validate :deadline_cannot_be_in_the_past, on: [:create]
 
   # Validations for confirming a poll
-  validate :must_have_at_least_two_options, if: :confirmed?
+  validate :must_have_at_least_two_options
   def must_have_at_least_two_options
-    if self.poll_options.reject(&:marked_for_destruction?).length < 2
+    if confirmed_at && self.poll_options.reject(&:marked_for_destruction?).length < 2
       errors.add(:poll_options, "Poll must have at least two options")
     end
   end
 
   validate :can_only_edit_deadline_after_confirming
   def can_only_edit_deadline_after_confirming
-    if confirmed_was && self.changed != ['deadline']
+    if confirmed_at_was && self.changed != ['deadline']
       errors.add(:deadline, "you can only change the deadline")
     end
   end

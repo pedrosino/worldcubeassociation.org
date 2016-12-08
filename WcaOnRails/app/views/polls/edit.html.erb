@@ -4,7 +4,7 @@
 
   <h3><%= yield(:title) %></h3>
 
-  <% is_actually_confirmed = Poll.find(@poll.id).confirmed_at != nil %>
+  <% is_actually_confirmed = Poll.find(@poll.id).confirmed? %>
   <% if is_actually_confirmed %>
     <% if @poll.over? %>
       <%= alert :danger do %>
@@ -56,7 +56,7 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <%= f.button :submit, class: "btn-primary" %>
-        <% if @poll.confirmed_at.nil? %>
+        <% if !@poll.confirmed? %>
           <%= link_to button_tag('Delete', type: "button", class: "btn btn-danger"), @poll, method: :delete, data: { confirm: "Are you sure you want to delete this poll? There is no going back." } %>
         <% end %>
         <%= button_tag(type: "submit", id: "confirm", name: "commit", value: "Confirm", class: "btn btn-success", data: { confirm: "Are you sure you want to confirm this poll? You will no longer be able to add, edit or delete options." }) do %>

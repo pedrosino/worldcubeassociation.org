@@ -56,7 +56,7 @@ class PollsController < ApplicationController
   def destroy
     @poll = Poll.find(params[:id])
 
-    if !@poll.confirmed_at && @poll.destroy
+    if !@poll.confirmed? && @poll.destroy
       flash[:success] = "Deleted poll"
       redirect_to polls_path
     else

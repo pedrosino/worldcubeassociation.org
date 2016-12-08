@@ -11,7 +11,12 @@ class AddConfirmedAtToPolls < ActiveRecord::Migration
   end
 
   def down
-    remove_column :polls, :confirmed_at
     add_column :polls, :confirmed, :boolean
+    execute <<-SQL
+      UPDATE polls
+      SET confirmed = 1
+      WHERE confirmed_at IS NOT NULL
+    SQL
+    remove_column :polls, :confirmed_at
   end
 end

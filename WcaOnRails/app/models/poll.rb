@@ -8,9 +8,9 @@ class Poll < ActiveRecord::Base
   validate :deadline_cannot_be_in_the_past, on: [:create]
 
   # Validations for confirming a poll
-  validate :must_have_at_least_two_options
+  validate :must_have_at_least_two_options, if: :confirmed?
   def must_have_at_least_two_options
-    if confirmed_at && self.poll_options.reject(&:marked_for_destruction?).length < 2
+    if self.poll_options.reject(&:marked_for_destruction?).length < 2
       errors.add(:poll_options, "Poll must have at least two options")
     end
   end
@@ -36,5 +36,9 @@ class Poll < ActiveRecord::Base
 
   def user_already_voted?(current_user)
     self.votes.find_by_user_id(current_user)
+  end
+
+  def confirmed?
+    confirmed_at != nil
   end
 end

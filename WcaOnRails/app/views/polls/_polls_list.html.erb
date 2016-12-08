@@ -1,6 +1,6 @@
 <table class="table polls-list">
   <% polls.each do |poll| %>
-    <tr class="<%= !poll.confirmed ? "danger" : "" %>" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= !poll.confirmed ? "This poll is not confirmed" : "" %>">
+    <tr class="<%= poll.confirmed_at.nil? ? "danger" : "" %>" data-toggle="tooltip" data-placement="top" data-container="body" title="<%= poll.confirmed_at.nil? ? "This poll is not confirmed" : "" %>">
       <td><%=md poll.question %></td>
       <td>
         <% if poll.user_already_voted?(current_user) %>

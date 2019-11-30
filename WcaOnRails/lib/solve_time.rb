@@ -212,7 +212,7 @@ class SolveTime
         end
       end
 
-      "#{@solved}/#{@attempted} #{result}"
+      "#{points} (#{@solved}/#{@attempted}) #{result}"
     else
       SolveTime.centiseconds_to_clock_format(time_centiseconds)
     end
